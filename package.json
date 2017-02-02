@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Aauslander920/workout_tracker_app_frontend#readme",
   "dependencies": {
     "angular": "^1.6.1",
-    "express": "^4.14.1"
+    "express": "^4.14.1",
+    "fullcalendar": "^3.1.0"
   }
 }

@@ -3,15 +3,30 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <!-- FullCalendar Stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css">
+
+    <!-- Angular Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.min.js"></script>
+
+    <!-- jQuery: FullCalendar depenency -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <!-- Moment: FullCalendar dependency -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
+    <!-- jQuery UI: FullCalendar dependency for dragging and dropping -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+    <!-- FullCalendar -->
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js'></script>
+    <!-- My app.js -->
     <script type="text/javascript" src='app.js'></script>
     <base href="/">
   </head>
 
-  <body ng-controller='mainController as main'>
-    <h1>Welcome, {{main.myName}}!</h1>
+  <body>
 
+    <header ng-controller='mainController as main'>
+    <h1>Welcome, {{main.myName}}!</h1>
     <nav>
       <ul>
         <li><a href="/users/signup">Sign Up</a></li>
@@ -21,8 +36,12 @@
         </form></li>
       </ul>
     </nav>
+    <div ng-view></div>
+  </header>
 
-    <main ng-view></main>
+    <main ng-controller='calendarController as cal'>
+      <div id='calendar'></div>
+    </main>
 
 
 

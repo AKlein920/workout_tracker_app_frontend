@@ -14,6 +14,19 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
   });
 }]);
 
+////////////////// CALENDAR CONTROLLER ///////////////////
+app.controller('calendarController', ['$http', function($http) {
+  this.calendar = function() {
+    $(document).ready(function() {
+      $('#calendar').fullCalendar({
+
+      })
+    });
+  }
+  this.calendar();
+}]);
+
+////////////////// MAIN CONTROLLER ///////////////////
 app.controller('mainController', ['$http', function($http) {
   this.url = 'http://localhost:3000'
   this.signUpData = {};
