@@ -1,9 +1,26 @@
-var app = angular.module('workoutApp', []);
+var app = angular.module('workoutApp', ['ngRoute']);
+
+app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+  $locationProvider.html5Mode({ enabled: true });
+
+  $routeProvider.when('/users/login', {
+    templateUrl: 'partials/login.html',
+    controller: 'mainController',
+    controllerAs: 'main'
+  }).when('/users/signup', {
+    templateUrl: 'partials/signUp.html',
+    controller: 'mainController',
+    controllerAs: 'main'
+  });
+}]);
 
 app.controller('mainController', ['$http', function($http) {
   this.url = 'http://localhost:3000'
   this.signUpData = {};
   this.logInData = {};
+  this.user = {};
+
+  this.myName = localStorage.username;
 
   ///////// Function to sign up:
   this.signUp = function() {
