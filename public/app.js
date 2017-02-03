@@ -16,18 +16,65 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
 
 ////////////////// CALENDAR CONTROLLER ///////////////////
 app.controller('CalendarCtrl', ['$http', 'uiCalendarConfig', function($http, uiCalendarConfig) {
+  this.url = 'http://localhost:3000';
+  this.addEventData = {};
+  this.events = [];
+
+  var date = new Date();
+  var d = date.getDate();
+  var m = date.getMonth();
+  var y = date.getFullYear();
+
+  // Function to get workout event data on page load:
+  $http({
+    method: 'GET',
+    url: this.url + '/users/' + localStorage.userId + '/workouts'
+  }).then(function(response) {
+    // console.log(response.data);
+    for (var i = 0; i < response.data.length; i++) {
+      this.events.push(response.data[i]);
+    };
+    console.log(this.events);
+  }.bind(this));
+
+  // So that fullcalendar can display events:
+  this.eventSources = [this.events];
+
+  this.addEvent = function() {
+    this.events.push({
+      title: this.addEventData.title,
+      start: new Date(),
+      backgroundColor: 'red',
+      editable: true
+    });
+    this.addEventData = {};
+  };
+
+  //////// TO FIX: DAYCLICK /////////
+  // this.dayClick = function(date, allDay, jsEvent, view) {
+  //   this.alertMessage = ('Day clicked: ' + date);
+  // }
 
    this.uiConfig = {
      calendar: {
-       height: 450,
-       editable: true,
-       header: {
-          left: 'month agendaWeek agendaDay',
-          center: 'title',
-          right: 'today prev,next'
-        }
+      height: 450,
+      editable: true,
+      // customButtons: {
+      //   addWorkoutBtn: {
+      //     text: 'Add Workout',
+      //     click: function() {
+      //       alert('clicked the add workout button!');;
+      //     }
+      //   }
+      // },
+      header: {
+        left: 'month agendaWeek agendaDay',
+        center: 'title addWorkoutBtn',
+        right: 'today prev,next'
+      },
+      // dayClick: this.dayClick
      }
-   }
+   };
 
 }]);
 
