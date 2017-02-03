@@ -1,4 +1,4 @@
-var app = angular.module('workoutApp', ['ngRoute']);
+var app = angular.module('workoutApp', ['ngRoute', 'ui.calendar']);
 
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
   $locationProvider.html5Mode({ enabled: true });
@@ -15,15 +15,20 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
 }]);
 
 ////////////////// CALENDAR CONTROLLER ///////////////////
-app.controller('calendarController', ['$http', function($http) {
-  this.calendar = function() {
-    $(document).ready(function() {
-      $('#calendar').fullCalendar({
+app.controller('CalendarCtrl', ['$http', 'uiCalendarConfig', function($http, uiCalendarConfig) {
 
-      })
-    });
-  }
-  this.calendar();
+   this.uiConfig = {
+     calendar: {
+       height: 450,
+       editable: true,
+       header: {
+          left: 'month agendaWeek agendaDay',
+          center: 'title',
+          right: 'today prev,next'
+        }
+     }
+   }
+
 }]);
 
 ////////////////// MAIN CONTROLLER ///////////////////
