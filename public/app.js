@@ -45,10 +45,12 @@ app.controller('CalendarCtrl', ['$http', 'uiCalendarConfig', function($http, uiC
       title: this.addEventData.title,
       start: new Date(),
       backgroundColor: 'red',
-      editable: true
+      editable: true,
+      stick: true
     });
     this.addEventData = {};
   };
+
 
   //////// TO FIX: DAYCLICK /////////
   // this.dayClick = function(date, allDay, jsEvent, view) {
@@ -71,8 +73,7 @@ app.controller('CalendarCtrl', ['$http', 'uiCalendarConfig', function($http, uiC
         left: 'month agendaWeek agendaDay',
         center: 'title addWorkoutBtn',
         right: 'today prev,next'
-      },
-      // dayClick: this.dayClick
+      }
      }
    };
 
