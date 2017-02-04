@@ -19,6 +19,7 @@ app.controller('CalendarCtrl', ['$http', 'uiCalendarConfig', function($http, uiC
   this.url = 'http://localhost:3000';
   this.addEventData = {};
   this.events = [];
+  this.workoutOptions = ['Cardio', 'HIIT', 'Strength Training', 'Yoga', 'Other'];
 
   var date = new Date();
   var d = date.getDate();
@@ -30,7 +31,7 @@ app.controller('CalendarCtrl', ['$http', 'uiCalendarConfig', function($http, uiC
     method: 'GET',
     url: this.url + '/users/' + localStorage.userId + '/workouts'
   }).then(function(response) {
-    // console.log(response.data);
+    console.log(response.data);
     for (var i = 0; i < response.data.length; i++) {
       this.events.push(response.data[i]);
     };
@@ -40,27 +41,57 @@ app.controller('CalendarCtrl', ['$http', 'uiCalendarConfig', function($http, uiC
   // So that fullcalendar can display events:
   this.eventSources = [this.events];
 
+  // Function to add event to calendar via form:
   this.addEvent = function() {
-    this.events.push({
-      title: this.addEventData.title,
-      start: new Date(),
-      backgroundColor: 'red',
-      editable: true,
-      stick: true
-    });
-    this.addEventData = {};
+    switch (this.addEventData.title) {
+      case 'Cardio':
+      this.addEventData.backgroundColor = 'red';
+      break;
+      case 'HIIT':
+      this.addEventData.backgroundColor = 'orange';
+      break;
+      case 'Strength Training':
+      this.addEventData.backgroundColor = 'blue';
+      break;
+      case 'Yoga':
+      this.addEventData.backgroundColor = 'green';
+      break;
+      case 'Other':
+      this.addEventData.backgroundColor = 'pink';
+      break;
+      default:
+      this.addEventData.backgroundColor = 'yellow';
+    }
+    $http({
+      method: 'POST',
+      url: this.url + '/users/' + localStorage.userId + '/workouts',
+      data: this.addEventData
+    }).then(function(response) {
+      console.log(response.data);
+      this.events.push({
+        title: this.addEventData.title,
+        start: this.addEventData.start,
+        backgroundColor: this.addEventData.backgroundColor
+      });
+      this.addEventData = {};
+    }.bind(this));
   };
 
-
-  //////// TO FIX: DAYCLICK /////////
-  // this.dayClick = function(date, allDay, jsEvent, view) {
-  //   this.alertMessage = ('Day clicked: ' + date);
-  // }
+  // Dayclick function - work on getting add form to show here
+  this.dayClick = function(date, allDay, jsEvent, view) {
+    console.log('Clicked on: ' + date.format());
+      $('.fc-day').click(function() {
+        console.log('hi');
+        // $('#modal').modal('show');
+      });
+    // this.css('background-color', 'red');
+  };
 
    this.uiConfig = {
      calendar: {
       height: 450,
       editable: true,
+      selectable: true,
       // customButtons: {
       //   addWorkoutBtn: {
       //     text: 'Add Workout',
@@ -73,7 +104,8 @@ app.controller('CalendarCtrl', ['$http', 'uiCalendarConfig', function($http, uiC
         left: 'month agendaWeek agendaDay',
         center: 'title addWorkoutBtn',
         right: 'today prev,next'
-      }
+      },
+      dayClick: this.dayClick
      }
    };
 
