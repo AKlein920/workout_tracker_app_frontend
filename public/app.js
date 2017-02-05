@@ -1,12 +1,12 @@
-var app = angular.module('workoutApp', ['ngRoute', 'ui.calendar']);
+var app = angular.module('workoutApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.calendar']);
 
-app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+app.config(['$routeProvider', '$locationProvider',    function($routeProvider, $locationProvider) {
   $locationProvider.html5Mode({ enabled: true });
 
-  $routeProvider.when('/users/login', {
-    templateUrl: 'partials/login.html',
-    controller: 'mainController',
-    controllerAs: 'main'
+$routeProvider.when('/users/login', {
+  templateUrl: 'partials/login.html',
+  controller: 'mainController',
+  controllerAs: 'main'
   }).when('/users/signup', {
     templateUrl: 'partials/signUp.html',
     controller: 'mainController',
@@ -15,8 +15,10 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
 }]);
 
 ////////////////// CALENDAR CONTROLLER ///////////////////
-app.controller('CalendarCtrl', ['$http', 'uiCalendarConfig', function($http, uiCalendarConfig) {
+app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', function($http, $uibModal, uiCalendarConfig) {
   this.url = 'http://localhost:3000';
+  var url = this.url;
+  this.animationsEnabled = true;
   this.addEventData = {};
   this.events = [];
   this.workoutOptions = ['Cardio', 'HIIT', 'Strength Training', 'Yoga', 'Other'];
@@ -26,7 +28,7 @@ app.controller('CalendarCtrl', ['$http', 'uiCalendarConfig', function($http, uiC
   var m = date.getMonth();
   var y = date.getFullYear();
 
-  // Function to get workout event data on page load:
+// Function to get workout event data on page load:
   $http({
     method: 'GET',
     url: this.url + '/users/' + localStorage.userId + '/workouts'
@@ -36,12 +38,12 @@ app.controller('CalendarCtrl', ['$http', 'uiCalendarConfig', function($http, uiC
       this.events.push(response.data[i]);
     };
     console.log(this.events);
-  }.bind(this));
+    }.bind(this));
 
-  // So that fullcalendar can display events:
+// So that fullcalendar can display events:
   this.eventSources = [this.events];
 
-  // Function to add event to calendar via form:
+// Function to add event to calendar via form:
   this.addEvent = function() {
     switch (this.addEventData.title) {
       case 'Cardio':
@@ -61,55 +63,91 @@ app.controller('CalendarCtrl', ['$http', 'uiCalendarConfig', function($http, uiC
       break;
       default:
       this.addEventData.backgroundColor = 'yellow';
-    }
-    $http({
-      method: 'POST',
-      url: this.url + '/users/' + localStorage.userId + '/workouts',
-      data: this.addEventData
-    }).then(function(response) {
-      console.log(response.data);
-      this.events.push({
-        title: this.addEventData.title,
-        start: this.addEventData.start,
-        backgroundColor: this.addEventData.backgroundColor
-      });
-      this.addEventData = {};
+  }
+  $http({
+    method: 'POST',
+    url: this.url + '/users/' + localStorage.userId + '/workouts',
+    data: this.addEventData
+  }).then(function(response) {
+    console.log(response.data);
+    this.events.push({
+      title: this.addEventData.title,
+      start: this.addEventData.start,
+      backgroundColor: this.addEventData.backgroundColor
+    });
+    this.addEventData = {};
+    $('#workoutCal').fullCalendar('refetchEvents');
     }.bind(this));
   };
 
-  // Dayclick function - work on getting add form to show here
-  this.dayClick = function(date, allDay, jsEvent, view) {
-    console.log('Clicked on: ' + date.format());
-      $('.fc-day').click(function() {
-        console.log('hi');
-        // $('#modal').modal('show');
-      });
-    // this.css('background-color', 'red');
+// Dayclick function - work on getting add form to show here
+// this.dayClick = function(date, allDay, jsEvent, view) {
+//   var days = document.getElementsByClassName('.fc-day');
+//   console.log(days);
+//   console.log('Clicked on: ' + date.format());
+// };
+var workouts = this.events;
+this.open = function() {
+  $http({
+    method: 'GET',
+    url: url + '/users/' + localStorage.userId + '/workouts'
+  }).then(function(response) {
+    console.log(response.data);
+  });
+  var $uibModalInstance = $uibModal.open({
+    animation: this.animationsEnabled,
+    templateUrl: 'myModalContent.html',
+    controller: 'ModalInstanceCtrl',
+    controllerAs: 'modal',
+    resolve: {
+      workouts: function() {
+
+      }
+    }
+  });
+};
+
+
+  var calendar = document.getElementById('workoutCal');
+
+  this.uiConfig = {
+   calendar: {
+    height: 450,
+    editable: true,
+    selectable: true,
+    // customButtons: {
+    //   addWorkoutBtn: {
+    //     text: 'Add Workout',
+    //     click: function() {
+    //       alert('clicked the add workout button!');;
+    //     }
+    //   }
+    // },
+    header: {
+      left: 'month agendaWeek agendaDay',
+      center: 'title addWorkoutBtn',
+      right: 'today prev,next'
+    },
+    eventClick: function(event, element) {
+
+    }
+   }
   };
 
-   this.uiConfig = {
-     calendar: {
-      height: 450,
-      editable: true,
-      selectable: true,
-      // customButtons: {
-      //   addWorkoutBtn: {
-      //     text: 'Add Workout',
-      //     click: function() {
-      //       alert('clicked the add workout button!');;
-      //     }
-      //   }
-      // },
-      header: {
-        left: 'month agendaWeek agendaDay',
-        center: 'title addWorkoutBtn',
-        right: 'today prev,next'
-      },
-      dayClick: this.dayClick
-     }
-   };
-
 }]);
+
+app.controller('ModalInstanceCtrl', ['$uibModalInstance', 'workouts',  function($uibModalInstance, workouts) {
+  this.workouts = workouts;
+  this.ok = function() {
+    $uibModalInstance.close();
+  };
+
+  this.cancel = function() {
+    $uibModalInstance.dismiss('cancel');
+  };
+}]);
+
+
 
 ////////////////// MAIN CONTROLLER ///////////////////
 app.controller('mainController', ['$http', function($http) {
@@ -120,7 +158,7 @@ app.controller('mainController', ['$http', function($http) {
 
   this.myName = localStorage.username;
 
-  ///////// Function to sign up:
+///////// Function to sign up:
   this.signUp = function() {
     $http({
       method: 'POST',
@@ -133,7 +171,7 @@ app.controller('mainController', ['$http', function($http) {
     }.bind(this));
   }
 
-  ///////// Function to log in:
+///////// Function to log in:
   this.login = function() {
     $http({
       method: 'POST',
@@ -156,7 +194,7 @@ app.controller('mainController', ['$http', function($http) {
     }.bind(this));
   }
 
-  //////// Function to log out:
+//////// Function to log out:
   this.logOut = function() {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');

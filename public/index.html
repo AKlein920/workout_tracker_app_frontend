@@ -18,10 +18,12 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
     <!-- jQuery UI: FullCalendar dependency for dragging and dropping -->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="crossorigin="anonymous"></script>
+    <!-- Angular Animate -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0/angular-animate.min.js'></script>
+    <!--Angular UI Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
     <!-- Angular UI Calendar -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/angular-ui-calendar/1.0.0/calendar.js'></script>
-    <!-- Bootstrap JS -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <!-- FullCalendar -->
     <script src='http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js'></script>
 
@@ -49,7 +51,7 @@
     <main ng-controller='CalendarCtrl as cal'>
 
       <!-- Render Calendar to Page -->
-      <div ui-calendar='cal.uiConfig.calendar' ng-model="cal.eventSources"></div>
+      <div id='workoutCal' ui-calendar='cal.uiConfig.calendar' ng-model="cal.eventSources"></div>
 
       <!-- Trial Add Event form -->
       <h2>Add a New Workout</h2>
@@ -65,24 +67,24 @@
       <br>
 
       <!-- Modal - a work in progress -->
-      <div class="modal" role='dialog' class='modal fade' id='modal'>
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" data-dismiss='modal' aria-hidden='true'>&times;</button>
-              <h4 modal-title>Title</h4>
+        <script type='text/ng-template' id='myModalContent.html'>
+          <div ng-repeat='workout in modal.workouts track by workout.id'>
+            <div  class="modal-header">
+              <h4 class='modal-title'>Title</h4>
             </div>
             <div class="modal-body">
-
+              <h1>Stuff</h1>
+              <p>{{workout.title}}</p>
             </div>
             <div class="modal-footer">
-
+              <button class="btn btn-primary" type="button" ng-click="modal.ok()">OK</button>
+              <button class="btn btn-warning" type="button" ng-click="modal.cancel()">Cancel</button>
             </div>
-          </div>
+          </script>
+          <button type="button" class="btn btn-default" ng-click="cal.open()">Open me!</button>
         </div>
-      </div>
-
     </main>
+
 
 
 
