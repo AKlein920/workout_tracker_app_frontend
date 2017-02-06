@@ -84,17 +84,97 @@
 
           <!-- Modal to add events: a work in progress -->
           <script type='text/ng-template' id='myAddModalContent.html'>
-            <div  class="modal-header">
-              <h4 class='modal-title'>Add a Workout</h4>
+            <div class="modal-header">
+              <h4 class='modal-title'>Add a Workout to: {{addModal.thisDate}}</h4>
             </div>
             <div class="modal-body">
-              <form ng-submit='cal.addEvent();'>
-                <select ng-model='cal.addEventData.title'>
-                  <option ng-repeat='workout in cal.workoutOptions' value='{{workout}}'>{{workout}}</option>
-                </select>
-                <!-- <datetimepicker data-ng-model='data.date'></datetimepicker> -->
-                <input type="date" ng-model='cal.addEventData.start' placeholder="Date">
-                <input type="submit" value="Add Event">
+              <form ng-submit='addModal.addEvent();'>
+
+                <div class='form-group'>
+                  <label class='col-md-4 control-label' for='workouttype'>Workout Type</label>
+                  <div class='col-md-4'>
+                    <select id='workouttype' class='form-control' ng-model='addModal.addEventData.title'>
+                      <option ng-repeat='workout in addModal.workoutOptions' value='{{workout}}'>{{workout}}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class='form-group'>
+                  <label class='col-md-4 control-label' for='locationradios'>Location</label>
+                  <div class='col-md-4'>
+                    <div class='radio'>
+                      <label for='radios-0'>
+                        <input type='radio' name='locationradios' id='radios-0' value='inside' ng-model='addModal.addEventData.location'>
+                        Inside
+                      </label>
+                    </div>
+                    <div class='radio'>
+                      <label for='radios-1'>
+                        <input type='radio' name='locationradios' id='radios-1' value='outside' ng-model='addModal.addEventData.location'>
+                        Outside
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class='form-group'>
+                  <label class='col-md-4 control-label' for='durationradios'>Duration (minutes)</label>
+                  <div class='col-md-4'>
+                    <div class='radio'>
+                      <label for='radios-0'>
+                        <input type='radio' name='durationradios' id='radios-0' value='under 30' ng-model='addModal.addEventData.duration'>
+                        Under 30
+                      </label>
+                    </div>
+                    <div class='radio'>
+                      <label for='radios-1'>
+                        <input type='radio' name='durationradios' id='radios-1' value='over 30' ng-model='addModal.addEventData.duration'>
+                        Over 30
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class='form-group'>
+                  <label class='col-md-4 control-label' for='classradios'>Was it a class?</label>
+                  <div class='col-md-4'>
+                    <label class='radio-inline' for='radios-0'>
+                      <input type='radio' name='classradios' id='radios-0' value='true' ng-model='addModal.addEventData.was_a_class'>
+                      Yes
+                    </label>
+                    <label class='radio-inline' for='radios-1'>
+                      <input type='radio' name='classradios' id='radios-1' value='false' ng-model='addModal.addEventData.was_a_class'>
+                      No
+                    </label>
+                  </div>
+                </div>
+
+                <div class='form-group'>
+                  <label class='col-md-4 control-label' for='equipment'>Equipment</label>
+                  <div class='col-md-4'>
+                    <select id='equipment' class='form-control' ng-model='addModal.addEventData.equipment_used'>
+                      <option ng-repeat='equipment in addModal.equipment' value='{{equipment}}'>{{equipment}}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class='form-group'>
+                  <label class='col-md-4 control-label' for='textinput'>Calories burned</label>
+                  <div class='col-md-4'>
+                    <input id='textinput' name='textinput' type='text' placeholder="Number" class='form-control input-md' ng-model='addModal.addEventData.calories_burned'>
+                  </div>
+                </div>
+
+                <div class='form-group'>
+                  <label class='col-md-4 control-label' for='textarea'>Notes</label>
+                  <div class='col-md-4'>
+                    <textarea class='form-control' id='textarea' name='textarea'>Special equipment, music/television, Youtube link, etc.!</textarea>
+                  </div>
+                </div>
+
+                <input type="hidden" ng-model='addModal.addEventData.start'> <br>
+                <input type="submit" value="Add Workout">
+
               </form>
             </div>
             <div class="modal-footer">

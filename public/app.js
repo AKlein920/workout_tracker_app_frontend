@@ -21,10 +21,9 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
   this.selectedWorkout = null;
   var selectedWorkout = this.selectedWorkout;
   this.animationsEnabled = true;
-  this.addEventData = {};
   this.events = [];
   var events = this.events;
-  this.workoutOptions = ['Cardio', 'HIIT', 'Strength Training', 'Yoga', 'Other'];
+
 
   var date = new Date();
   var d = date.getDate();
@@ -47,50 +46,6 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
   this.eventSources = [this.events];
   var events = this.events;
 
-// Function to add event to calendar via form:
-  this.addEvent = function() {
-    switch (this.addEventData.title) {
-      case 'Cardio':
-      this.addEventData.backgroundColor = 'red';
-      break;
-      case 'HIIT':
-      this.addEventData.backgroundColor = 'orange';
-      break;
-      case 'Strength Training':
-      this.addEventData.backgroundColor = 'blue';
-      break;
-      case 'Yoga':
-      this.addEventData.backgroundColor = 'green';
-      break;
-      case 'Other':
-      this.addEventData.backgroundColor = 'pink';
-      break;
-      default:
-      this.addEventData.backgroundColor = 'yellow';
-  }
-  $http({
-    method: 'POST',
-    url: this.url + '/users/' + localStorage.userId + '/workouts',
-    data: this.addEventData
-  }).then(function(response) {
-    console.log(response.data);
-    this.events.push({
-      title: this.addEventData.title,
-      start: this.addEventData.start,
-      backgroundColor: this.addEventData.backgroundColor
-    });
-    this.addEventData = {};
-    $('#workoutCal').fullCalendar('refetchEvents');
-    }.bind(this));
-  };
-
-// Dayclick function - work on getting add form to show here
-// this.dayClick = function(date, allDay, jsEvent, view) {
-//   var days = document.getElementsByClassName('.fc-day');
-//   console.log(days);
-//   console.log('Clicked on: ' + date.format());
-// };
-
   var calendar = document.getElementById('workoutCal');
 
   this.uiConfig = {
@@ -104,13 +59,17 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
       right: 'today prev,next'
     },
     dayClick: function(date) {
+      var thisDate = date;
       var $uibModalInstance = $uibModal.open({
         templateUrl: 'myAddModalContent.html',
         controller: 'AddModalInstanceCtrl',
-        controllerAs: 'addModal'
-      })
+        controllerAs: 'addModal',
+        resolve: {
+          thisDate: thisDate
+        }
+      });
       console.log(date);
-      console.log(date.format());
+      // console.log(thisDate);
     },
     eventClick: function(selectedWorkout) {
       this.selectedWorkout = selectedWorkout;
@@ -147,12 +106,60 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
 
 }]);
 
-app.controller('AddModalInstanceCtrl', ['$uibModalInstance', '$http', function($uibModalInstance, $http) {
+///////////// ADD WORKOUT MODAL CONTROLLER ///////////////
+app.controller('AddModalInstanceCtrl', ['$uibModalInstance', '$http', 'thisDate', function($uibModalInstance, $http, thisDate) {
+  this.url = 'http://localhost:3000';
+  this.workoutOptions = ['Cardio', 'HIIT', 'Strength Training', 'Yoga', 'Other'];
+  this.equipment = ['Cardio machine (treadmill, elliptical, bike, etc.)', 'Weights (dumbbells, medicine ball, etc.)', 'Resistance bands/TRX straps', 'Bodyweight'];
+  this.addEventData = {};
+  this.events = [];
+  this.thisDate = thisDate.format();
+
+  // Function to add event to calendar via modal:
+    this.addEvent = function() {
+      this.addEventData.start = thisDate;
+      switch (this.addEventData.title) {
+        case 'Cardio':
+        this.addEventData.backgroundColor = 'red';
+        break;
+        case 'HIIT':
+        this.addEventData.backgroundColor = 'orange';
+        break;
+        case 'Strength Training':
+        this.addEventData.backgroundColor = 'blue';
+        break;
+        case 'Yoga':
+        this.addEventData.backgroundColor = 'green';
+        break;
+        case 'Other':
+        this.addEventData.backgroundColor = 'pink';
+        break;
+        default:
+        this.addEventData.backgroundColor = 'yellow';
+    };
+
+    $http({
+      method: 'POST',
+      url: this.url + '/users/' + localStorage.userId + '/workouts',
+      data: this.addEventData
+    }).then(function(response) {
+      console.log(response.data);
+      this.events.push({
+        title: this.addEventData.title,
+        start: this.addEventData.start,
+        backgroundColor: this.addEventData.backgroundColor
+      });
+      this.addEventData = {};
+      $('#workoutCal').fullCalendar('refetchEvents');
+      }.bind(this));
+    };
+
   this.ok = function() {
     $uibModalInstance.close();
   }
 }]);
 
+///////////////// UPDATE WORKOUT MODAL CONTROLLER //////////////////
 app.controller('ModalInstanceCtrl', ['$uibModalInstance', '$http', 'selectedWorkout', function($uibModalInstance, $http, selectedWorkout) {
   this.url = 'http://localhost:3000';
   this.workout = selectedWorkout;
