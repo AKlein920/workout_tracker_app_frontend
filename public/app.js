@@ -144,28 +144,49 @@ app.controller('AddModalInstanceCtrl', ['$uibModalInstance', '$http', 'thisDate'
       data: this.addEventData
     }).then(function(response) {
       console.log(response.data);
-      this.events.push({
-        title: this.addEventData.title,
-        start: this.addEventData.start,
-        backgroundColor: this.addEventData.backgroundColor
-      });
+      // this.events.push({
+      //   title: this.addEventData.title,
+      //   start: this.addEventData.start,
+      //   backgroundColor: this.addEventData.backgroundColor
+      // });
       this.addEventData = {};
-      $('#workoutCal').fullCalendar('refetchEvents');
+      // $('#workoutCal').fullCalendar('refetchEvents');
       }.bind(this));
     };
 
   this.ok = function() {
     $uibModalInstance.close();
+    // console.log(window.location);
+    window.location.reload();
   }
 }]);
 
-///////////////// UPDATE WORKOUT MODAL CONTROLLER //////////////////
+///////////////// UPDATE/DELETE WORKOUT MODAL CONTROLLER //////////////////
 app.controller('ModalInstanceCtrl', ['$uibModalInstance', '$http', 'selectedWorkout', function($uibModalInstance, $http, selectedWorkout) {
   this.url = 'http://localhost:3000';
+  this.workoutOptions = ['Cardio', 'HIIT', 'Strength Training', 'Yoga', 'Other'];
+  this.equipment = ['Cardio machine (treadmill, elliptical, bike, etc.)', 'Weights (dumbbells, medicine ball, etc.)', 'Resistance bands/TRX straps', 'Bodyweight'];
   this.workout = selectedWorkout;
-  this.udpateWorkout = {};
+  this.updateWorkout = {};
 
   this.update = function() {
+    switch (this.updateWorkout.title) {
+      case 'Cardio':
+      this.updateWorkout.backgroundColor = 'red';
+      break;
+      case 'HIIT':
+      this.updateWorkout.backgroundColor = 'orange';
+      break;
+      case 'Strength Training':
+      this.updateWorkout.backgroundColor = 'blue';
+      break;
+      case 'Yoga':
+      this.updateWorkout.backgroundColor = 'green';
+      break;
+      case 'Other':
+      this.updateWorkout.backgroundColor = 'pink';
+      break;
+  };
     $http({
       method: 'PUT',
       url: this.url + '/users/' + localStorage.userId + '/workouts/' + selectedWorkout.id,
