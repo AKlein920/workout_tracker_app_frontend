@@ -67,22 +67,23 @@
       <br>
 
       <!-- Modal - a work in progress -->
-        <script type='text/ng-template' id='myModalContent.html'>
-          <div ng-repeat='workout in modal.workouts track by workout.id'>
+          <script type='text/ng-template' id='myModalContent.html'>
             <div  class="modal-header">
               <h4 class='modal-title'>Title</h4>
             </div>
             <div class="modal-body">
-              <h1>Stuff</h1>
-              <p>{{workout.title}}</p>
+              <h1>{{modal.workout.title}}</h1>
+              <form>
+                <input ng-model='modal.updateWorkout.title' type='text' placeholder="{{modal.workout.title}}">
+              </form>
+              <button ng-click='modal.delete()'>Delete</button>
+              <button ng-click='modal.update()'>Update</button>
             </div>
             <div class="modal-footer">
               <button class="btn btn-primary" type="button" ng-click="modal.ok()">OK</button>
-              <button class="btn btn-warning" type="button" ng-click="modal.cancel()">Cancel</button>
             </div>
           </script>
-          <button type="button" class="btn btn-default" ng-click="cal.open()">Open me!</button>
-        </div>
+
     </main>
 
 

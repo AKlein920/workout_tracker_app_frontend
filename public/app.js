@@ -18,9 +18,12 @@ $routeProvider.when('/users/login', {
 app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', function($http, $uibModal, uiCalendarConfig) {
   this.url = 'http://localhost:3000';
   var url = this.url;
+  this.selectedWorkout = null;
+  var selectedWorkout = this.selectedWorkout;
   this.animationsEnabled = true;
   this.addEventData = {};
   this.events = [];
+  var events = this.events;
   this.workoutOptions = ['Cardio', 'HIIT', 'Strength Training', 'Yoga', 'Other'];
 
   var date = new Date();
@@ -33,7 +36,7 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
     method: 'GET',
     url: this.url + '/users/' + localStorage.userId + '/workouts'
   }).then(function(response) {
-    console.log(response.data);
+    // console.log(response.data);
     for (var i = 0; i < response.data.length; i++) {
       this.events.push(response.data[i]);
     };
@@ -42,6 +45,7 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
 
 // So that fullcalendar can display events:
   this.eventSources = [this.events];
+  var events = this.events;
 
 // Function to add event to calendar via form:
   this.addEvent = function() {
@@ -86,27 +90,6 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
 //   console.log(days);
 //   console.log('Clicked on: ' + date.format());
 // };
-var workouts = this.events;
-this.open = function() {
-  $http({
-    method: 'GET',
-    url: url + '/users/' + localStorage.userId + '/workouts'
-  }).then(function(response) {
-    console.log(response.data);
-  });
-  var $uibModalInstance = $uibModal.open({
-    animation: this.animationsEnabled,
-    templateUrl: 'myModalContent.html',
-    controller: 'ModalInstanceCtrl',
-    controllerAs: 'modal',
-    resolve: {
-      workouts: function() {
-
-      }
-    }
-  });
-};
-
 
   var calendar = document.getElementById('workoutCal');
 
@@ -115,36 +98,64 @@ this.open = function() {
     height: 450,
     editable: true,
     selectable: true,
-    // customButtons: {
-    //   addWorkoutBtn: {
-    //     text: 'Add Workout',
-    //     click: function() {
-    //       alert('clicked the add workout button!');;
-    //     }
+    // dayClick: function() {
+    //   this.newWorkout = {
+    //
     //   }
-    // },
+    // }
     header: {
       left: 'month agendaWeek agendaDay',
       center: 'title addWorkoutBtn',
       right: 'today prev,next'
     },
-    eventClick: function(event, element) {
-
+    eventClick: function(selectedWorkout) {
+      this.selectedWorkout = selectedWorkout;
+      console.log(selectedWorkout);
+      var $uibModalInstance = $uibModal.open({
+        // animation: this.animationsEnabled,
+        templateUrl: 'myModalContent.html',
+        controller: 'ModalInstanceCtrl',
+        controllerAs: 'modal',
+        resolve: {
+          selectedWorkout: selectedWorkout
+        }
+      });
     }
    }
   };
 
 }]);
 
-app.controller('ModalInstanceCtrl', ['$uibModalInstance', 'workouts',  function($uibModalInstance, workouts) {
-  this.workouts = workouts;
+app.controller('ModalInstanceCtrl', ['$uibModalInstance', '$http', 'selectedWorkout', function($uibModalInstance, $http, selectedWorkout) {
+  this.url = 'http://localhost:3000';
+  this.workout = selectedWorkout;
+  this.udpateWorkout = {};
+
+  this.update = function() {
+    $http({
+      method: 'PUT',
+      url: this.url + '/users/' + localStorage.userId + '/workouts/' + selectedWorkout.id,
+      data: this.updateWorkout
+    }).then(function(response) {
+      console.log(response.data);
+    })
+  }
+
+  this.delete = function() {
+    $http({
+      method: 'DELETE',
+      url: this.url + '/users/' + localStorage.userId + '/workouts/' + selectedWorkout.id
+    }).then(function(response) {
+      console.log(response);
+    })
+  }
+
   this.ok = function() {
+    console.log(selectedWorkout);
+    // console.log(this.workout);
     $uibModalInstance.close();
   };
 
-  this.cancel = function() {
-    $uibModalInstance.dismiss('cancel');
-  };
 }]);
 
 
