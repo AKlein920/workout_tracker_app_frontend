@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css">
     <!-- Bootstrap -->
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+    <!-- Angular Bootstrap datetimepicker CSS -->
+    <link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/angular-bootstrap-datetimepicker/1.1.3/css/datetimepicker.min.css">
+
 
     <!-- Angular Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
@@ -24,6 +27,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
     <!-- Angular UI Calendar -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/angular-ui-calendar/1.0.0/calendar.js'></script>
+    <!-- Angular Bootstrap DateTimePicker -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/angular-bootstrap-datetimepicker/1.1.3/js/datetimepicker.min.js'></script>
+    <!-- Associated templates -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/angular-bootstrap-datetimepicker/1.1.3/js/datetimepicker.templates.min.js'></script>
     <!-- FullCalendar -->
     <script src='http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js'></script>
 
@@ -53,20 +60,11 @@
       <!-- Render Calendar to Page -->
       <div id='workoutCal' ui-calendar='cal.uiConfig.calendar' ng-model="cal.eventSources"></div>
 
-      <!-- Trial Add Event form -->
-      <h2>Add a New Workout</h2>
-      <form ng-submit='cal.addEvent();'>
-        <select ng-model='cal.addEventData.title'>
-          <option ng-repeat='workout in cal.workoutOptions' value='{{workout}}'>{{workout}}</option>
-        </select>
-        <input type="date" ng-model='cal.addEventData.start' placeholder="Date">
-        <input type="submit" value="Add Event">
-      </form>
 
       <br>
       <br>
 
-      <!-- Modal - a work in progress -->
+      <!-- Modal to edit events - a work in progress -->
           <script type='text/ng-template' id='myModalContent.html'>
             <div  class="modal-header">
               <h4 class='modal-title'>Title</h4>
@@ -83,6 +81,27 @@
               <button class="btn btn-primary" type="button" ng-click="modal.ok()">OK</button>
             </div>
           </script>
+
+          <!-- Modal to add events: a work in progress -->
+          <script type='text/ng-template' id='myAddModalContent.html'>
+            <div  class="modal-header">
+              <h4 class='modal-title'>Add a Workout</h4>
+            </div>
+            <div class="modal-body">
+              <form ng-submit='cal.addEvent();'>
+                <select ng-model='cal.addEventData.title'>
+                  <option ng-repeat='workout in cal.workoutOptions' value='{{workout}}'>{{workout}}</option>
+                </select>
+                <!-- <datetimepicker data-ng-model='data.date'></datetimepicker> -->
+                <input type="date" ng-model='cal.addEventData.start' placeholder="Date">
+                <input type="submit" value="Add Event">
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" type="button" ng-click="addModal.ok()">OK</button>
+            </div>
+          </script>
+
 
     </main>
 

@@ -1,4 +1,4 @@
-var app = angular.module('workoutApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.calendar']);
+var app = angular.module('workoutApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.calendar', 'ui.bootstrap.datetimepicker']);
 
 app.config(['$routeProvider', '$locationProvider',    function($routeProvider, $locationProvider) {
   $locationProvider.html5Mode({ enabled: true });
@@ -98,15 +98,19 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
     height: 450,
     editable: true,
     selectable: true,
-    // dayClick: function() {
-    //   this.newWorkout = {
-    //
-    //   }
-    // }
     header: {
       left: 'month agendaWeek agendaDay',
       center: 'title addWorkoutBtn',
       right: 'today prev,next'
+    },
+    dayClick: function(date) {
+      var $uibModalInstance = $uibModal.open({
+        templateUrl: 'myAddModalContent.html',
+        controller: 'AddModalInstanceCtrl',
+        controllerAs: 'addModal'
+      })
+      console.log(date);
+      console.log(date.format());
     },
     eventClick: function(selectedWorkout) {
       this.selectedWorkout = selectedWorkout;
@@ -120,10 +124,33 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
           selectedWorkout: selectedWorkout
         }
       });
+    },
+    eventDrop: function(selectedWorkout, delta, revertFunc, jsEvent, ui, view) {
+      this.selectedWorkout = selectedWorkout;
+      console.log(selectedWorkout);
+      console.log(selectedWorkout.start._d);
+      var newDate = selectedWorkout.start._d;
+      console.log(delta._days);
+      // console.log(selectedWorkout.start.add(delta._days, 'days'));
+      $http({
+        method: 'PUT',
+        url: url + '/users/' + localStorage.userId + '/workouts/' + selectedWorkout.id,
+        data: {
+          start: newDate
+        }
+      }).then(function(response) {
+        console.log(response);
+      })
     }
    }
   };
 
+}]);
+
+app.controller('AddModalInstanceCtrl', ['$uibModalInstance', '$http', function($uibModalInstance, $http) {
+  this.ok = function() {
+    $uibModalInstance.close();
+  }
 }]);
 
 app.controller('ModalInstanceCtrl', ['$uibModalInstance', '$http', 'selectedWorkout', function($uibModalInstance, $http, selectedWorkout) {
@@ -151,7 +178,7 @@ app.controller('ModalInstanceCtrl', ['$uibModalInstance', '$http', 'selectedWork
   }
 
   this.ok = function() {
-    console.log(selectedWorkout);
+    // console.log(selectedWorkout);
     // console.log(this.workout);
     $uibModalInstance.close();
   };
