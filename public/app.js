@@ -50,13 +50,13 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
 
   this.uiConfig = {
    calendar: {
-    height: 500,
-    theme: true,
+    height: 600,
+    // theme: true,
     editable: true,
     selectable: true,
     header: {
-      left: 'month agendaWeek agendaDay',
-      center: 'title addWorkoutBtn',
+      // left: 'month agendaWeek agendaDay',
+      // center: 'title addWorkoutBtn',
       right: 'today prev,next'
     },
     dayClick: function(date) {
@@ -121,19 +121,19 @@ app.controller('AddModalInstanceCtrl', ['$uibModalInstance', '$http', 'thisDate'
       this.addEventData.start = thisDate;
       switch (this.addEventData.title) {
         case 'Cardio':
-        this.addEventData.backgroundColor = 'red';
+        this.addEventData.backgroundColor = '#9C27B0';
         break;
         case 'HIIT':
-        this.addEventData.backgroundColor = 'orange';
+        this.addEventData.backgroundColor = '#673AB7';
         break;
         case 'Strength Training':
-        this.addEventData.backgroundColor = 'blue';
+        this.addEventData.backgroundColor = '#2196F3';
         break;
         case 'Yoga':
-        this.addEventData.backgroundColor = 'green';
+        this.addEventData.backgroundColor = '#00BCD4';
         break;
         case 'Other':
-        this.addEventData.backgroundColor = 'pink';
+        this.addEventData.backgroundColor = '#009688';
         break;
         default:
         this.addEventData.backgroundColor = 'yellow';
@@ -173,19 +173,19 @@ app.controller('ModalInstanceCtrl', ['$uibModalInstance', '$http', 'selectedWork
   this.update = function() {
     switch (this.updateWorkout.title) {
       case 'Cardio':
-      this.updateWorkout.backgroundColor = 'red';
+      this.updateWorkout.backgroundColor = '#9C27B0';
       break;
       case 'HIIT':
-      this.updateWorkout.backgroundColor = 'orange';
+      this.updateWorkout.backgroundColor = '#673AB7';
       break;
       case 'Strength Training':
-      this.updateWorkout.backgroundColor = 'blue';
+      this.updateWorkout.backgroundColor = '#2196F3';
       break;
       case 'Yoga':
-      this.updateWorkout.backgroundColor = 'green';
+      this.updateWorkout.backgroundColor = '#00BCD4';
       break;
       case 'Other':
-      this.updateWorkout.backgroundColor = 'pink';
+      this.updateWorkout.backgroundColor = '#009688';
       break;
   };
     $http({

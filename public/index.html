@@ -37,6 +37,7 @@
     <!-- FullCalendar -->
     <script src='http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js'></script>
 
+
     <!-- My app.js -->
     <script type="text/javascript" src='app.js'></script>
     <base href="/">
@@ -44,25 +45,30 @@
 
   <body>
 
-    <header ng-controller='mainController as main'>
-      <h1>WorkIt</h1>
-    <nav>
-      <ul class='nav nav-justified'>
-        <li><a href="/users/signup">Sign Up</a></li>
-        <li><a href="/users/login">Log In</a></li>
-        <li><form ng-submit='main.logOut();'>
-          <input type="submit" value="Log Out">
-        </form></li>
-      </ul>
-    </nav>
-    <h1>Welcome, {{main.myName}}!</h1>
-    <div ng-view></div>
+    <header id='header' >
+      <h1 id='appName'>WorkIt</h1>
     </header>
 
-    <main ng-controller='CalendarCtrl as cal'>
+    <div ng-controller='mainController as main'>
+      <nav >
+        <ul class='nav nav-justified'>
+          <li><a href="/users/signup">Sign Up</a></li>
+          <li><a href="/users/login">Log In</a></li>
+          <li><form ng-submit='main.logOut();'>
+            <input type="submit" value="Log Out">
+          </form></li>
+        </ul>
+      </nav>
+      <h1>Welcome, {{main.myName}}!</h1>
+      <div ng-view></div>
+    </div>
 
+
+    <main ng-controller='CalendarCtrl as cal'>
+      <div class="container">
       <!-- Render Calendar to Page -->
       <div id='workoutCal' ui-calendar='cal.uiConfig.calendar' ng-model="cal.eventSources"></div>
+
 
 
       <br>
@@ -287,11 +293,11 @@
             </div>
           </script>
 
-
+        </div>
     </main>
 
-
-
-
+    <footer>
+      <h4>Made with <span id='heart'>&hearts;</span> by Abi Klein</h4>
+    </footer>
   </body>
 </html>
