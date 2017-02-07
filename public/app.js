@@ -50,7 +50,8 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
 
   this.uiConfig = {
    calendar: {
-    height: 450,
+    height: 500,
+    theme: true,
     editable: true,
     selectable: true,
     header: {
@@ -209,6 +210,7 @@ app.controller('ModalInstanceCtrl', ['$uibModalInstance', '$http', 'selectedWork
     // console.log(selectedWorkout);
     // console.log(this.workout);
     $uibModalInstance.close();
+    window.location.reload();
   };
 
 }]);

@@ -9,6 +9,9 @@
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
     <!-- Angular Bootstrap datetimepicker CSS -->
     <link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/angular-bootstrap-datetimepicker/1.1.3/css/datetimepicker.min.css">
+    <!-- My own CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
 
     <!-- Angular Libraries -->
@@ -42,9 +45,9 @@
   <body>
 
     <header ng-controller='mainController as main'>
-    <h1>Welcome, {{main.myName}}!</h1>
+      <h1>WorkIt</h1>
     <nav>
-      <ul>
+      <ul class='nav nav-justified'>
         <li><a href="/users/signup">Sign Up</a></li>
         <li><a href="/users/login">Log In</a></li>
         <li><form ng-submit='main.logOut();'>
@@ -52,6 +55,7 @@
         </form></li>
       </ul>
     </nav>
+    <h1>Welcome, {{main.myName}}!</h1>
     <div ng-view></div>
     </header>
 
@@ -67,7 +71,7 @@
       <!-- Modal to edit events - a work in progress -->
           <script type='text/ng-template' id='myModalContent.html'>
             <div class="modal-header">
-              <h4 class='modal-title'>Current workout: {{modal.workout.title}}</h4>
+              <h3 class='modal-title'>Current workout: {{modal.workout.title}}</h3>
             </div>
             <div class="modal-body">
               <form ng-submit='modal.update();'>
@@ -165,19 +169,21 @@
                   </div>
                 </div>
 
+                <input class='btn btn-primary' type='submit' value="Update">
               </form>
-              <!-- <button ng-click='modal.delete()'>Delete</button> -->
-              <button ng-click='modal.update()'>Update</button>
+              <button class='btn btn-danger' ng-click='modal.delete()'>Delete</button>
+
             </div>
             <div class="modal-footer">
               <button class="btn btn-primary" type="button" ng-click="modal.ok()">OK</button>
             </div>
           </script>
 
+
           <!-- Modal to add events -->
           <script type='text/ng-template' id='myAddModalContent.html'>
             <div class="modal-header">
-              <h4 class='modal-title'>Add a Workout to: {{addModal.thisDate}}</h4>
+              <h3 class='modal-title'>Add a Workout to: {{addModal.thisDate}}</h3>
             </div>
             <div class="modal-body">
               <form ng-submit='addModal.addEvent();'>

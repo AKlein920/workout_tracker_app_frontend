@@ -1,0 +1,13 @@
+body {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+}
+
+header {
+  height: 300px;
+
+}
+
+.fc-body {
+  background-image: url('http://s3.amazonaws.com/spoonflower/public/design_thumbnails/0079/1466/rrrchevron-lightergrey_shop_preview.png');
+}
