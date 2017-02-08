@@ -119,7 +119,7 @@ app.controller('AddModalInstanceCtrl', ['$uibModalInstance', '$http', 'thisDate'
   this.equipment = ['Cardio machine (treadmill, elliptical, bike, etc.)', 'Weights (dumbbells, medicine ball, etc.)', 'Resistance bands/TRX straps', 'Bodyweight'];
   this.addEventData = {};
   this.events = [];
-  this.thisDate = thisDate.format();
+  this.thisDate = thisDate.format('MMMM Do');
 
   // Function to add event to calendar via modal:
     this.addEvent = function() {

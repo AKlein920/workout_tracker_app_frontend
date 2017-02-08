@@ -186,3 +186,15 @@ footer {
   background: #FFAB91;
   color: white;
 }
+
+.row1Container, .row2Container, .row3Container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.form-group {
+  display: inline-block;
+}
