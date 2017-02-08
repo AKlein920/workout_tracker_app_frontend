@@ -1,31 +1,73 @@
 body {
   margin: 0;
   text-align: center;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Josefin Sans', sans-serif;
   color: gray;
 }
 
 #header {
-  height: 100px;
+  height: 200px;
   margin-top: 0;
-  background-color: #303f9f;
-  color: #FFFFFF;
+  /*background-color: #303f9f;*/
+  /*color: #FFFFFF;*/
 }
 
 #appName {
-  font-size: 3em;
+  font-family: 'Graduate', cursive;
+  font-size: 5em;
+  font-weight: 900;
   margin-top: 0;
-  padding-top: 1em;
+  padding-top: 0.5em;
   margin-bottom: 0;
 }
 
-/*.fc-body {
-  background-image: url('https://lh6.googleusercontent.com/-DmKSBAQ3bbc/VEZQRd7pwVI/AAAAAAAAI-w/uVrlr3y66nI/s865-no/bkg_02_february.jpg');
-  background-size: 100%;
-}*/
+#workoutCal {
+  border: 5px solid gray;
+}
+
+.headerContainer {
+  display: block;
+}
+
+.icon {
+  display: inline-block;
+  width: 80px;
+  height: 60px;
+  background-image: url('http://i.imgur.com/40BkiFs.png?3');
+}
+
+.icon.yogamat {
+  background-position-x: -9px;
+  background-position-y: -76px;
+}
+
+.icon.heart {
+  background-position-x: 5px;
+  background-position-y: -7px;
+}
+
+.icon.barbell {
+  background-position-x: -109px;
+  background-position-y: -76px;
+  height: 60px;
+}
+
+.icon.bottle{
+  background-position-x: -62px;
+  background-position-y: 7px;
+  height: 80px;
+  width: 70px;
+}
+
+.icon.medal {
+  background-position-x: -141px;
+  background-position-y: -4px;
+  width: 60px;
+  height: 70px;
+}
 
 .fc-day-number {
-  background-color: #FF5722;
+  background-color: #442C3F;
   color: #FFFFFF;
   border-radius: 50%;
   height: 1.5em;
@@ -39,16 +81,22 @@ body {
 }
 
 .fc-toolbar {
-  background-color: #FF5722;
+  background-image: url('http://d3ui957tjb5bqd.cloudfront.net/images/screenshots/products/113/1135/1135824/cover-f.jpg');
   color: #FFFFFF;
   margin-bottom: 0;
-  padding: 3em;
+  padding: 2em;
 }
 
 .fc-day-header {
   background-color: #303f9f;
   color: #FFFFFF;
   padding: 2em;
+}
+
+h2 {
+  font-family: 'Graduate', cursive;
+  font-weight: bold;
+  font-size: 3em;
 }
 
 .fc-day-header:nth-last-child(1n+0) {
@@ -68,32 +116,35 @@ body {
   height: auto;
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, .5);
   text-align: center;
-  font-size: .75em;
+  font-size: .7em;
   font-weight: bold;
   letter-spacing: .08em;
   transition: all 0.2s ease-in-out;
 }
 
 .fc-event:hover {
-  transform: scale(1.5);
+  transform: scale(2);
+  overflow: visible;
+}
+
+.fc-day {
+  background-color: #FFFFFF;
+  transition: all 0.1s ease;
 }
 
 .fc-day:hover{
     cursor: pointer;
-    box-shadow: inset 0px 0px 8px 2px rgba(48,63,159,1);
+    background-color: #FFCCBC;
+    /*background-color: #FFCCBC;*/
+    overflow: visible;
 }
 
-/*Allow pointer-events through*/
-.fc-slats, /*horizontals*/
-.fc-content-skeleton, /*day numbers*/
-.fc-bgevent-skeleton /*events container*/{
-    pointer-events:none
+.fc-slats, .fc-content-skeleton, .fc-bgevent-skeleton {
+    pointer-events: none;
 }
 
-/*Turn pointer events back on*/
-.fc-bgevent,
-.fc-event-container{
-    pointer-events:auto; /*events*/
+.fc-bgevent, .fc-event-container {
+    pointer-events: auto;
 }
 
 footer {
@@ -102,4 +153,36 @@ footer {
 
 #heart {
   color: #FF5722;
+}
+
+/* ----------MODAL---------- */
+
+.pink {
+  background: #FF003F;
+  color: white;
+}
+
+.teal {
+  background: #00E89D;
+  color: white;
+}
+
+.purple {
+  background: #55384F;
+  color: white;
+}
+
+.orange {
+  background: #FF8109;
+  color: white;
+}
+
+.gray {
+  background: #CACDAC;
+  color: white;
+}
+
+.peach {
+  background: #FFAB91;
+  color: white;
 }
