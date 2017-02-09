@@ -11,7 +11,7 @@
     <link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/angular-bootstrap-datetimepicker/1.1.3/css/datetimepicker.min.css">
     <!-- My own CSS -->
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css?family=Graduate|Josefin+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Josefin+Sans" rel="stylesheet">
 
 
     <!-- Angular Libraries -->
@@ -36,8 +36,6 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/angular-bootstrap-datetimepicker/1.1.3/js/datetimepicker.templates.min.js'></script>
     <!-- FullCalendar -->
     <script src='http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js'></script>
-
-
     <!-- My app.js -->
     <script type="text/javascript" src='app.js'></script>
     <base href="/">
@@ -45,49 +43,47 @@
 
   <body>
 
-    <header id='header'>
-      <div class="headerContainer">
-        <h1 id='appName'>WorkIt</h1>
-      </div>
-      <div class="headerContainer">
-        <div class='icon yogamat'></div>
-        <div class='icon heart'></div>
-        <div class='icon barbell'></div>
-        <div class='icon bottle'></div>
-        <div class='icon medal'></div>
-      </div>
-      <!-- Thank you to https://dribbble.com/shots/1329540-Gym-Icons for these icons -->
-
-    </header>
-
     <div ng-controller='mainController as main'>
-      <nav >
-        <ul class='nav nav-justified'>
-          <li><a href="/users/signup">Sign Up</a></li>
-          <li><a href="/users/login">Log In</a></li>
-          <li><form ng-submit='main.logOut();'>
-            <input type="submit" value="Log Out">
-          </form></li>
-        </ul>
-      </nav>
-      <h1>Welcome, {{main.myName}}!</h1>
+      <header id='header'>
+        <div class="headerContainer">
+          <nav>
+            <ul class='nav nav-justified'>
+              <li class='nav-item'>
+                <a href='/users/signup'>Sign Up <span class='glyphicon glyphicon-flash'></span></a>
+              </li>
+              <li class='nav-item'>
+                <a href="/users/login">Log In <span class='glyphicon glyphicon-flash'></span></a>
+              </li>
+              <li class='nav-item'><a ng-click='main.logOut();' href='/users/logout'>Log Out <span class='glyphicon glyphicon-flash'></span></a></li>
+              <li class='nav-item'>FAQ <span class='glyphicon glyphicon-flash'></span></li>
+              <li ng-if='main.loggedIn' class='nav-item'>Welcome, {{main.myName}} <span class='glyphicon glyphicon-flash'></span></li>
+            </ul>
+          </nav>
+
+          <h1 id='appName'>WORKIT</h1>
+        </div>
+        <div class="headerContainer">
+          <div class='icon yogamat'></div>
+          <div class='icon heart'></div>
+          <div class='icon barbell'></div>
+          <div class='icon bottle'></div>
+          <div class='icon medal'></div>
+        </div>
+        <!-- Thank you to https://dribbble.com/shots/1329540-Gym-Icons for these icons -->
+      </header>
       <div ng-view></div>
     </div>
-
 
     <main ng-controller='CalendarCtrl as cal'>
       <div class="container">
       <!-- Render Calendar to Page -->
       <div id='workoutCal' ui-calendar='cal.uiConfig.calendar' ng-model="cal.eventSources"></div>
-
-
-
       <br>
       <br>
 
       <!-- Modal to edit events - a work in progress -->
           <script type='text/ng-template' id='myModalContent.html'>
-            <div ng-class="{ 'pink': modal.workout.title == 'Cardio', 'teal': modal.workout.title == 'Yoga', 'purple': modal.workout.title == 'Strength Training', 'orange': modal.workout.title == 'HIIT', 'gray': modal.workout.title == 'Other' }" class="modal-header">
+            <div ng-class="{ 'blue': modal.workout.title == 'Cardio', 'teal': modal.workout.title == 'Yoga', 'green': modal.workout.title == 'Strength Training', 'purple': modal.workout.title == 'HIIT', 'lime': modal.workout.title == 'Other' }" class="modal-header">
               <h3 class='modal-title'>Current workout: {{modal.workout.title}}</h3>
             </div>
             <div class="modal-body">

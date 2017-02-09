@@ -11,6 +11,10 @@ $routeProvider.when('/users/login', {
     templateUrl: 'partials/signUp.html',
     controller: 'mainController',
     controllerAs: 'main'
+  }).when('/users/logout', {
+    redirectTo: function() {
+      return '/';
+    }
   });
 }]);
 
@@ -22,15 +26,15 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
   var selectedWorkout = this.selectedWorkout;
   this.animationsEnabled = true;
   this.events = [];
-  var events = this.events;
-
+  events = this.events;
+  eventSources = this.eventSources;
 
   var date = new Date();
   var d = date.getDate();
   var m = date.getMonth();
   var y = date.getFullYear();
 
-// Function to get workout event data on page load:
+// Function to get workout event data on page load, if user is signed in:
   $http({
     method: 'GET',
     url: this.url + '/users/' + localStorage.userId + '/workouts'
@@ -42,15 +46,15 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
     console.log(this.events);
     }.bind(this));
 
+
 // So that fullcalendar can display events:
   this.eventSources = [this.events];
-  var events = this.events;
 
   var calendar = document.getElementById('workoutCal');
 
   this.uiConfig = {
    calendar: {
-    height: 600,
+    height: 700,
     // theme: true,
     editable: true,
     selectable: true,
@@ -126,19 +130,19 @@ app.controller('AddModalInstanceCtrl', ['$uibModalInstance', '$http', 'thisDate'
       this.addEventData.start = thisDate;
       switch (this.addEventData.title) {
         case 'Cardio':
-        this.addEventData.backgroundColor = '#FF003F';
+        this.addEventData.backgroundColor = '#4D528C';
         break;
         case 'HIIT':
-        this.addEventData.backgroundColor = '#FF8109';
+        this.addEventData.backgroundColor = '#471A41';
         break;
         case 'Strength Training':
-        this.addEventData.backgroundColor = '#55384F';
+        this.addEventData.backgroundColor = '#578E71';
         break;
         case 'Yoga':
-        this.addEventData.backgroundColor = '#00E89D';
+        this.addEventData.backgroundColor = '#61CEBB';
         break;
         case 'Other':
-        this.addEventData.backgroundColor = '#CACDAC';
+        this.addEventData.backgroundColor = '#ADB02B';
         break;
         default:
         this.addEventData.backgroundColor = 'yellow';
@@ -180,19 +184,19 @@ app.controller('ModalInstanceCtrl', ['$uibModalInstance', '$http', 'selectedWork
   this.update = function() {
     switch (this.updateWorkout.title) {
       case 'Cardio':
-      this.updateWorkout.backgroundColor = '#FF003F';
+      this.updateWorkout.backgroundColor = '#4D528C';
       break;
       case 'HIIT':
-      this.updateWorkout.backgroundColor = '#FF8109';
+      this.updateWorkout.backgroundColor = '#471A41';
       break;
       case 'Strength Training':
-      this.updateWorkout.backgroundColor = '#55384F';
+      this.updateWorkout.backgroundColor = '#578E71';
       break;
       case 'Yoga':
-      this.updateWorkout.backgroundColor = '#00E89D';
+      this.updateWorkout.backgroundColor = '#61CEBB';
       break;
       case 'Other':
-      this.updateWorkout.backgroundColor = '#CACDAC';
+      this.updateWorkout.backgroundColor = '#ADB02B';
       break;
   };
     $http({
@@ -230,8 +234,13 @@ app.controller('mainController', ['$http', function($http) {
   this.signUpData = {};
   this.logInData = {};
   this.user = {};
+  this.loggedIn = false;
 
-  this.myName = localStorage.username;
+  if (localStorage.length) {
+    this.loggedIn = true;
+    this.myName = localStorage.username;
+  }
+
 
 ///////// Function to sign up:
   this.signUp = function() {
@@ -248,6 +257,7 @@ app.controller('mainController', ['$http', function($http) {
 
 ///////// Function to log in:
   this.login = function() {
+    this.myName = '';
     $http({
       method: 'POST',
       url: this.url + '/users/login',
@@ -265,8 +275,20 @@ app.controller('mainController', ['$http', function($http) {
         this.logInData = {};
         this.loggedIn = true;
         this.wrongPassword = false;
+        $http({
+          method: 'GET',
+          url: this.url + '/users/' + localStorage.userId + '/workouts'
+        }).then(function(response) {
+          // console.log(response.data);
+          for (var i = 0; i < response.data.length; i++) {
+            events.push(response.data[i]);
+          };
+          // console.log(events);
+        }.bind(this));
       }
     }.bind(this));
+    this.loggedIn = true;
+    this.myName = localStorage.username;
   }
 
 //////// Function to log out:
@@ -276,6 +298,7 @@ app.controller('mainController', ['$http', function($http) {
     localStorage.removeItem('username');
     this.loggedIn = false;
     this.user = null;
+    eventSources = [];
   }
 
 

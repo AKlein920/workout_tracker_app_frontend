@@ -6,15 +6,38 @@ body {
 }
 
 #header {
-  height: 200px;
-  margin-top: 0;
+  height: 25%;
   /*background-color: #303f9f;*/
   /*color: #FFFFFF;*/
 }
 
+.nav {
+  background-color: lightgray;
+}
+
+.nav-item {
+  padding: 1.5%;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  background-color: lightgray;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: gray;
+  padding: 0px;
+  background-color: lightgray;
+}
+
+.nav-item:hover, nav ul li a:hover {
+  background-color: #E6DAE8;
+  color: gray;
+}
+
 #appName {
-  font-family: 'Graduate', cursive;
-  font-size: 5em;
+  font-size: 6em;
+  letter-spacing: .2em;
+  color: gray;
   font-weight: 900;
   margin-top: 0;
   padding-top: 0.5em;
@@ -67,7 +90,7 @@ body {
 }
 
 .fc-day-number {
-  background-color: #442C3F;
+  background-color: #8a69d4;
   color: #FFFFFF;
   border-radius: 50%;
   height: 1.5em;
@@ -81,20 +104,22 @@ body {
 }
 
 .fc-toolbar {
-  background-image: url('http://d3ui957tjb5bqd.cloudfront.net/images/screenshots/products/113/1135/1135824/cover-f.jpg');
+  height: 150px;
+  text-transform: uppercase;
+  background-image: url('https://s-media-cache-ak0.pinimg.com/originals/ee/27/3c/ee273c760e2b2a611e6496c7ffa4428e.jpg');
   color: #FFFFFF;
   margin-bottom: 0;
   padding: 2em;
 }
 
 .fc-day-header {
-  background-color: #303f9f;
+  text-transform: uppercase;
+  background-color: #92D4D3;
   color: #FFFFFF;
   padding: 2em;
 }
 
 h2 {
-  font-family: 'Graduate', cursive;
   font-weight: bold;
   font-size: 3em;
 }
@@ -134,9 +159,9 @@ h2 {
 
 .fc-day:hover{
     cursor: pointer;
-    background-color: #FFCCBC;
+    background-color: #E6DAE8;
     /*background-color: #FFCCBC;*/
-    overflow: visible;
+    /*overflow: visible;*/
 }
 
 .fc-slats, .fc-content-skeleton, .fc-bgevent-skeleton {
@@ -157,28 +182,28 @@ footer {
 
 /* ----------MODAL---------- */
 
-.pink {
-  background: #FF003F;
+.blue {
+  background: #4D528C;
   color: white;
 }
 
 .teal {
-  background: #00E89D;
+  background: #61CEBB;
+  color: white;
+}
+
+.green {
+  background: #578E71;
   color: white;
 }
 
 .purple {
-  background: #55384F;
+  background: #471A41;
   color: white;
 }
 
-.orange {
-  background: #FF8109;
-  color: white;
-}
-
-.gray {
-  background: #CACDAC;
+.lime {
+  background: #ADB02B;
   color: white;
 }
 
