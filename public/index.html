@@ -47,16 +47,26 @@
       <header id='header'>
         <div class="headerContainer">
           <nav>
-            <ul class='nav nav-justified'>
-              <li class='nav-item'>
-                <a href='/users/signup'>Sign Up <span class='glyphicon glyphicon-flash'></span></a>
-              </li>
-              <li class='nav-item'>
-                <a href="/users/login">Log In <span class='glyphicon glyphicon-flash'></span></a>
-              </li>
-              <li class='nav-item'><a ng-click='main.logOut();' href='/users/logout'>Log Out <span class='glyphicon glyphicon-flash'></span></a></li>
-              <li class='nav-item'>FAQ <span class='glyphicon glyphicon-flash'></span></li>
-              <li ng-if='main.loggedIn' class='nav-item'>Welcome, {{main.myName}} <span class='glyphicon glyphicon-flash'></span></li>
+            <ul class='nav'>
+              <a href='/users/signup'>
+                <li class='nav-item'>
+                  Sign Up <span class='glyphicon glyphicon-flash'></span>
+                </li>
+              </a>
+              <a href="/users/login">
+                <li class='nav-item'>
+                  Log In <span class='glyphicon glyphicon-flash'></span>
+                </li>
+              </a>
+              <a ng-click='main.logOut();' href='/users/logout'>
+                <li class='nav-item'>Log Out <span class='glyphicon glyphicon-flash'></span></li>
+              </a>
+              <a href="#">
+                <li class='nav-item'>FAQ <span class='glyphicon glyphicon-flash'></span></li>
+              </a>
+              <a href="#">
+                <li ng-if='main.loggedIn' class='nav-item'>Welcome, {{main.myName}} <span class='glyphicon glyphicon-flash'></span></li>
+              </a>
             </ul>
           </nav>
 
