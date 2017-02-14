@@ -1,6 +1,6 @@
 var app = angular.module('workoutApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.calendar', 'ui.bootstrap.datetimepicker']);
 
-app.config(['$routeProvider', '$locationProvider',    function($routeProvider, $locationProvider) {
+app.config(['$routeProvider', '$locationProvider',   function($routeProvider, $locationProvider) {
   $locationProvider.html5Mode({ enabled: true });
 
 $routeProvider.when('/users/login', {
@@ -229,7 +229,7 @@ app.controller('ModalInstanceCtrl', ['$uibModalInstance', '$http', 'selectedWork
 
 
 ////////////////// MAIN CONTROLLER ///////////////////
-app.controller('mainController', ['$http', function($http) {
+app.controller('mainController', ['$http', '$location', function($http, $location) {
   this.url = 'http://localhost:3000'
   this.signUpData = {};
   this.logInData = {};
@@ -252,6 +252,7 @@ app.controller('mainController', ['$http', function($http) {
       console.log('Signing Up');
       console.log(response.data);
       this.signUpData = {};
+      $location.path('/users/login');
     }.bind(this));
   }
 
