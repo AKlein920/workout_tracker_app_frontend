@@ -20,6 +20,7 @@ $routeProvider.when('/users/login', {
 
 ////////////////// CALENDAR CONTROLLER ///////////////////
 app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', function($http, $uibModal, uiCalendarConfig) {
+  this.localStorage = localStorage.length;
   this.url = 'http://localhost:3000';
   var url = this.url;
   this.selectedWorkout = null;
@@ -235,6 +236,7 @@ app.controller('mainController', ['$http', '$location', function($http, $locatio
   this.logInData = {};
   this.user = {};
   this.loggedIn = false;
+  this.localStorage = localStorage.length;
 
   if (localStorage.length) {
     this.loggedIn = true;
@@ -276,20 +278,23 @@ app.controller('mainController', ['$http', '$location', function($http, $locatio
         this.logInData = {};
         this.loggedIn = true;
         this.wrongPassword = false;
-        $http({
-          method: 'GET',
-          url: this.url + '/users/' + localStorage.userId + '/workouts'
-        }).then(function(response) {
-          // console.log(response.data);
-          for (var i = 0; i < response.data.length; i++) {
-            events.push(response.data[i]);
-          };
-          // console.log(events);
-        }.bind(this));
+        // $http({
+        //   method: 'GET',
+        //   url: this.url + '/users/' + localStorage.userId + '/workouts'
+        // }).then(function(response) {
+        //   // console.log(response.data);
+        //   for (var i = 0; i < response.data.length; i++) {
+        //     events.push(response.data[i]);
+        //     this.loggedIn = true;
+        //     this.myName = localStorage.username;
+        //
+        //   };
+        //   // console.log(events);
+        // }.bind(this));
+        window.location.reload();
       }
     }.bind(this));
-    this.loggedIn = true;
-    this.myName = localStorage.username;
+
   }
 
 //////// Function to log out:
@@ -299,7 +304,9 @@ app.controller('mainController', ['$http', '$location', function($http, $locatio
     localStorage.removeItem('username');
     this.loggedIn = false;
     this.user = null;
-    eventSources = [];
+    events = [];
+    window.location.reload();
+    // $location.path('/');
   }
 
 

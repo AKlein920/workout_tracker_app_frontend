@@ -48,13 +48,13 @@
         <div class="headerContainer">
           <nav>
             <ul class='nav'>
-              <a href='/users/signup'>
-                <li class='nav-item'>
+              <a ng-hide='main.localStorage' href='/users/signup'>
+                <li ng-hide='main.localStorage' class='nav-item'>
                   Sign Up <span class='glyphicon glyphicon-flash'></span>
                 </li>
               </a>
-              <a href="/users/login">
-                <li class='nav-item'>
+              <a ng-hide='main.localStorage' href="/users/login">
+                <li ng-hide='main.localStorage' class='nav-item'>
                   Log In <span class='glyphicon glyphicon-flash'></span>
                 </li>
               </a>
@@ -64,8 +64,8 @@
               <a href="#">
                 <li class='nav-item'>FAQ <span class='glyphicon glyphicon-flash'></span></li>
               </a>
-              <a href="#">
-                <li ng-if='main.loggedIn' class='nav-item'>Welcome, {{main.myName}} <span class='glyphicon glyphicon-flash'></span></li>
+              <a ng-show='main.localStorage' href="/">
+                <li ng-show='main.localStorage' class='nav-item'>Welcome, {{main.myName}} <span class='glyphicon glyphicon-flash'></span></li>
               </a>
             </ul>
           </nav>
@@ -86,10 +86,14 @@
 
     <main ng-controller='CalendarCtrl as cal'>
       <div class="container">
+        <div ng-if='!cal.localStorage'>
+          <h3>Sign up or log in to begin!</h3>
+          <h4>WorkIt is an interactive calendar built for tracking your workouts. Add workouts by clicking days on the calendar, and  edit or delete workouts by clicking on them. To easily change a workout's date, just drag and drop it on a new date.</h4>
+        </div>
       <!-- Render Calendar to Page -->
-      <div id='workoutCal' ui-calendar='cal.uiConfig.calendar' ng-model="cal.eventSources"></div>
-      <br>
-      <br>
+        <div ng-if='cal.localStorage' id='workoutCal' ui-calendar='cal.uiConfig.calendar' ng-model="cal.eventSources"></div>
+        <br>
+        <br>
 
       <!-- Modal to edit events - a work in progress -->
           <script type='text/ng-template' id='myModalContent.html'>
@@ -326,9 +330,9 @@
 
         </div>
     </main>
-
+    <hr>
     <footer>
-      <h4>Made with <span id='heart'>&hearts;</span> by Abi Klein</h4>
+      <h4>Made with <span id='heart'>&hearts;</span> by <a href='http://aauslander920.github.io'>Abi Klein</a></h4>
     </footer>
   </body>
 </html>
