@@ -157,7 +157,7 @@ h2 {
   transition: all 0.1s ease;
 }
 
-.fc-day:hover{
+.fc-day:hover {
     cursor: pointer;
     background-color: #E6DAE8;
     /*background-color: #FFCCBC;*/
@@ -208,8 +208,8 @@ footer {
 }
 
 .peach {
-  background: #FFAB91;
-  color: white;
+  background: #E6DAE8;
+  color: gray;
 }
 
 .row1Container, .row2Container, .row3Container {

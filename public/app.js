@@ -230,7 +230,7 @@ app.controller('ModalInstanceCtrl', ['$uibModalInstance', '$http', 'selectedWork
 
 
 ////////////////// MAIN CONTROLLER ///////////////////
-app.controller('mainController', ['$http', '$location', function($http, $location) {
+app.controller('mainController', ['$http', '$uibModal', '$location', function($http, $uibModal, $location) {
   this.url = 'http://localhost:3000'
   this.signUpData = {};
   this.logInData = {};
@@ -309,5 +309,21 @@ app.controller('mainController', ['$http', '$location', function($http, $locatio
     // $location.path('/');
   }
 
+///////// Function to run on FAQ link click:
+  this.faq = function() {
+    var $uibModalInstance = $uibModal.open({
+      // animation: this.animationsEnabled,
+      templateUrl: 'faqModalContent.html',
+      controller: 'faqModalInstanceCtrl',
+      controllerAs: 'faq'
+    });
+  }
 
 }]); ///////// END mainController
+
+/////////////// FAQ Modal Controller
+app.controller('faqModalInstanceCtrl', ['$uibModalInstance', function($uibModalInstance) {
+  this.ok = function() {
+    $uibModalInstance.close();
+  }
+}]);

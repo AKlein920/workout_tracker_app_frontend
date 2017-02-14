@@ -44,6 +44,21 @@
   <body>
 
     <div ng-controller='mainController as main'>
+      <script type="text/ng-template" id="faqModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">FAQ</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <h4>How do I add a workout?</h4>
+          <p>Click on a calendar day, and a form will appear.</p>
+          <h4>How do I edit a workout?</h4>
+          <p>Click on the workout's event title to access its infomation, or drag and drop the workout to a new date on the calendar.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="faq.ok()">OK</button>
+        </div>
+    </script>
+
       <header id='header'>
         <div class="headerContainer">
           <nav>
@@ -62,7 +77,7 @@
                 <li class='nav-item'>Log Out <span class='glyphicon glyphicon-flash'></span></li>
               </a>
               <a href="#">
-                <li class='nav-item'>FAQ <span class='glyphicon glyphicon-flash'></span></li>
+                <li ng-click='main.faq();' class='nav-item'>FAQ <span class='glyphicon glyphicon-flash'></span></li>
               </a>
               <a ng-show='main.localStorage' href="/">
                 <li ng-show='main.localStorage' class='nav-item'>Welcome, {{main.myName}} <span class='glyphicon glyphicon-flash'></span></li>
