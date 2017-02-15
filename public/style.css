@@ -234,6 +234,7 @@ footer {
 
 .formBtn {
   background-color: #E6DAE8;
+  transition: all 0.2s ease-in-out;
 }
 
 .formBtn:hover {

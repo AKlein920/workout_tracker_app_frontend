@@ -21,7 +21,7 @@ $routeProvider.when('/users/login', {
 ////////////////// CALENDAR CONTROLLER ///////////////////
 app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', function($http, $uibModal, uiCalendarConfig) {
   this.localStorage = localStorage.length;
-  this.url = 'http://localhost:3000';
+  this.url = 'https://workout-tracker-app-api.herokuapp.com/';
   var url = this.url;
   this.selectedWorkout = null;
   var selectedWorkout = this.selectedWorkout;
@@ -119,7 +119,7 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
 
 ///////////// ADD WORKOUT MODAL CONTROLLER ///////////////
 app.controller('AddModalInstanceCtrl', ['$uibModalInstance', '$http', 'thisDate', function($uibModalInstance, $http, thisDate) {
-  this.url = 'http://localhost:3000';
+  this.url = 'https://workout-tracker-app-api.herokuapp.com/';
   this.workoutOptions = ['Cardio', 'HIIT', 'Strength Training', 'Yoga', 'Other'];
   this.equipment = ['Cardio machine (treadmill, elliptical, bike, etc.)', 'Weights (dumbbells, medicine ball, etc.)', 'Resistance bands/TRX straps', 'Bodyweight'];
   this.addEventData = {};
@@ -176,7 +176,7 @@ app.controller('AddModalInstanceCtrl', ['$uibModalInstance', '$http', 'thisDate'
 
 ///////////////// UPDATE/DELETE WORKOUT MODAL CONTROLLER //////////////////
 app.controller('ModalInstanceCtrl', ['$uibModalInstance', '$http', 'selectedWorkout', function($uibModalInstance, $http, selectedWorkout) {
-  this.url = 'http://localhost:3000';
+  this.url = 'https://workout-tracker-app-api.herokuapp.com/';
   this.workoutOptions = ['Cardio', 'HIIT', 'Strength Training', 'Yoga', 'Other'];
   this.equipment = ['Cardio machine (treadmill, elliptical, bike, etc.)', 'Weights (dumbbells, medicine ball, etc.)', 'Resistance bands/TRX straps', 'Bodyweight'];
   this.workout = selectedWorkout;
@@ -231,7 +231,7 @@ app.controller('ModalInstanceCtrl', ['$uibModalInstance', '$http', 'selectedWork
 
 ////////////////// MAIN CONTROLLER ///////////////////
 app.controller('mainController', ['$http', '$uibModal', '$location', function($http, $uibModal, $location) {
-  this.url = 'http://localhost:3000'
+  this.url = 'https://workout-tracker-app-api.herokuapp.com/'
   this.signUpData = {};
   this.logInData = {};
   this.user = {};
