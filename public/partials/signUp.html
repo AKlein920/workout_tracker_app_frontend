@@ -1,10 +1,13 @@
 <!-- Sign Up Form -->
 <h2>Sign Up</h2>
-<form ng-submit='main.signUp();'>
-  <input type="text" ng-model='main.signUpData.username' placeholder="Username">
-  <input type="password" ng-model='main.signUpData.password' placeholder="Password">
-  <input type="submit" value="Sign Up">
-</form>
+<div class="container">
+  <form ng-submit='main.signUp();'>
+    <input class='signUpForm form-control' type="text" ng-model='main.signUpData.username' placeholder="Username">
+    <input class='signUpForm form-control' type="password" ng-model='main.signUpData.password' placeholder="Password">
+    <input class='signUpForm formBtn form-control btn btn-default' type="submit" value="Sign Up">
+  </form>
+</div>
 
-<br>
+
+
 <br>

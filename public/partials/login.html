@@ -1,11 +1,14 @@
 <!-- Log In Form -->
 <div ng-hide='main.loggedIn'>
   <h2>Log In</h2>
-  <form>
-    <input type="text" ng-model='main.logInData.username' placeholder="Username">
-    <input type="password" ng-model='main.logInData.password' placeholder="Password">
-    <a href='/'><input ng-click='main.login(main.signUpData)' type="submit" value="Log In"></a>
-  </form>
-  <br>
+  <div class="container">
+    <form>
+      <input class='signUpForm form-control' type="text" ng-model='main.logInData.username' placeholder="Username">
+      <input class='signUpForm form-control' type="password" ng-model='main.logInData.password' placeholder="Password">
+      <a href='/'><input class='signUpForm formBtn form-control btn btn-default' ng-click='main.login(main.signUpData)' type="submit" value="Log In"></a>
+    </form>
+  </div>
+
+
   <br>
 </div>
