@@ -10,11 +10,12 @@ Live site: [WorkIt](https://workitcal.herokuapp.com/)
 
 * Ruby
 * Rails
-* PostgresQL
+* PostgreSQL
 * Node.js
 * Angular.js
 * Angular UI Calendar
 * Angular UI Bootstrap
+* User authentication (bcrypt, json web tokens)
 * HTML5 & CSS3
 * Heroku
 
