@@ -57,36 +57,45 @@ body {
   width: 80px;
   height: 60px;
   background-image: url('http://i.imgur.com/40BkiFs.png?3');
+  cursor: pointer;
+}
+
+.seeAll {
+  height: 56px;
+  display: inline-block;
+  font-size: 4em;
+  color: #92D4D3;
+  cursor: pointer;
 }
 
 .icon.yogamat {
   background-position-x: -9px;
-  background-position-y: -76px;
+  background-position-y: -69px;
 }
 
 .icon.heart {
   background-position-x: 5px;
-  background-position-y: -7px;
+  background-position-y: 1px;
 }
 
 .icon.barbell {
   background-position-x: -109px;
-  background-position-y: -76px;
+  background-position-y: -70px;
   height: 60px;
 }
 
 .icon.bottle{
-  background-position-x: -62px;
-  background-position-y: 7px;
-  height: 80px;
-  width: 70px;
+  background-position-x: -69px;
+  background-position-y: 2px;
+  height: 70px;
+  width: 60px;
 }
 
 .icon.medal {
   background-position-x: -141px;
-  background-position-y: -4px;
-  width: 60px;
-  height: 70px;
+  background-position-y: -5px;
+  width: 54px;
+  height: 65px;
 }
 
 .fc-day-number {
@@ -104,7 +113,7 @@ body {
 }
 
 .fc-toolbar {
-  height: 150px;
+  height: 80px;
   text-transform: uppercase;
   background-image: url('https://s-media-cache-ak0.pinimg.com/originals/ee/27/3c/ee273c760e2b2a611e6496c7ffa4428e.jpg');
   color: #FFFFFF;

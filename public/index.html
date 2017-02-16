@@ -87,13 +87,7 @@
 
           <h1 id='appName'>WORKIT</h1>
         </div>
-        <div class="headerContainer">
-          <div class='icon yogamat'></div>
-          <div class='icon heart'></div>
-          <div class='icon barbell'></div>
-          <div class='icon bottle'></div>
-          <div class='icon medal'></div>
-        </div>
+
         <!-- Thank you to https://dribbble.com/shots/1329540-Gym-Icons for these icons -->
       </header>
       <div ng-view></div>
@@ -101,6 +95,14 @@
 
     <main ng-controller='CalendarCtrl as cal'>
       <div class="container">
+        <div class="headerContainer">
+          <div tooltip-placement="top" uib-tooltip="View by Yoga" ng-click='cal.eventsYoga();' class='icon yogamat'></div>
+          <div tooltip-placement="top" uib-tooltip="View by Cardio" ng-click='cal.eventsCardio();' class='icon heart'></div>
+          <div tooltip-placement="top" uib-tooltip="View by Strength Training" ng-click='cal.eventsStrength();' class='icon barbell'></div>
+          <div tooltip-placement="top" uib-tooltip="View by HIIT" ng-click='cal.eventsHIIT();' class='icon bottle'></div>
+          <div tooltip-placement="top" uib-tooltip="View by Other" ng-click='cal.eventsOther();' class='icon medal'></div>
+          <div tooltip-placement="top" uib-tooltip="View All Workouts" class='seeAll' ng-click='cal.getAll();'><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></div>
+        </div>
         <div ng-if='!cal.localStorage'>
           <h3>Sign up or log in to begin!</h3>
           <h4>WorkIt is an interactive calendar built for tracking your workouts. Add workouts by clicking days on the calendar, and  edit or delete workouts by clicking on them. To easily change a workout's date, just drag and drop it on a new date.</h4>
@@ -108,7 +110,7 @@
       <!-- Render Calendar to Page -->
         <div ng-if='cal.localStorage' id='workoutCal' ui-calendar='cal.uiConfig.calendar' ng-model="cal.eventSources"></div>
         <br>
-        <br>
+        
 
       <!-- Modal to edit events - a work in progress -->
           <script type='text/ng-template' id='myModalContent.html'>
@@ -342,7 +344,14 @@
               <button class="btn btn-primary" type="button" ng-click="addModal.ok()">OK</button>
             </div>
           </script>
-
+          <div>
+            <div tooltip-placement="top" uib-tooltip="View by Yoga" ng-click='cal.eventsYoga();' class='icon yogamat'></div>
+            <div tooltip-placement="top" uib-tooltip="View by Cardio" ng-click='cal.eventsCardio();' class='icon heart'></div>
+            <div tooltip-placement="top" uib-tooltip="View by Strength Training" ng-click='cal.eventsStrength();' class='icon barbell'></div>
+            <div tooltip-placement="top" uib-tooltip="View by HIIT" ng-click='cal.eventsHIIT();' class='icon bottle'></div>
+            <div tooltip-placement="top" uib-tooltip="View by Other" ng-click='cal.eventsOther();' class='icon medal'></div>
+            <div tooltip-placement="top" uib-tooltip="View All Workouts" class='seeAll' ng-click='cal.getAll();'><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></div>
+          </div>
         </div>
     </main>
     <hr>

@@ -22,6 +22,7 @@ $routeProvider.when('/users/login', {
 app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', function($http, $uibModal, uiCalendarConfig) {
   this.localStorage = localStorage.length;
   this.url = 'https://workitcal-api.herokuapp.com';
+  // this.url = 'http://localhost:3000';
   var url = this.url;
   this.selectedWorkout = null;
   var selectedWorkout = this.selectedWorkout;
@@ -35,6 +36,8 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
   var m = date.getMonth();
   var y = date.getFullYear();
 
+
+
 // Function to get workout event data on page load, if user is signed in:
   $http({
     method: 'GET',
@@ -47,12 +50,12 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
     console.log(this.events);
     }.bind(this));
 
-
 // So that fullcalendar can display events:
   this.eventSources = [this.events];
 
   var calendar = document.getElementById('workoutCal');
 
+////////////////////////////////// CONFIGURE ANGULAR UI CALENDAR
   this.uiConfig = {
    calendar: {
     height: 700,
@@ -85,6 +88,7 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
     eventClick: function(selectedWorkout) {
       this.selectedWorkout = selectedWorkout;
       console.log(selectedWorkout);
+      // console.log(events.indexOf(selectedWorkout));
       var $uibModalInstance = $uibModal.open({
         // animation: this.animationsEnabled,
         templateUrl: 'myModalContent.html',
@@ -100,7 +104,7 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
       console.log(selectedWorkout);
       console.log(selectedWorkout.start._d);
       var newDate = selectedWorkout.start._d;
-      console.log(delta._days);
+      // console.log(delta._days);
       // console.log(selectedWorkout.start.add(delta._days, 'days'));
       $http({
         method: 'PUT',
@@ -109,17 +113,80 @@ app.controller('CalendarCtrl', ['$http', '$uibModal', 'uiCalendarConfig', functi
           start: newDate
         }
       }).then(function(response) {
-        console.log(response);
-      })
+        console.log(response.data);
+        for (var i = 0; i < events.length; i++) {
+          if (selectedWorkout._id === events[i]._id) {
+            events.splice(i, 1);
+          }
+        }
+        events.push(response.data[0]);
+      });
     }
    }
   };
 
+///////////// WORK IN PROGRESS - attempt to filter events array (will not show up on calendar as filtered)
+    this.getCardio = function(obj) {
+      return obj.title == 'Cardio';
+    }
+
+    this.getYoga = function(obj) {
+      return obj.title == 'Yoga';
+    }
+
+    this.getHIIT = function(obj) {
+      return obj.title == 'HIIT';
+    }
+
+    this.getStrength = function(obj) {
+      return obj.title == 'Strength Training';
+    }
+
+    this.getOther = function(obj) {
+      return obj.title == 'Other';
+    }
+
+    this.eventsCardio = function() {
+      this.cardioEvents = events.filter(this.getCardio);
+      $('#workoutCal').fullCalendar('removeEvents');
+      $('#workoutCal').fullCalendar('addEventSource', this.cardioEvents);
+      // console.log(this.eventSources);
+    }
+
+    this.eventsYoga = function() {
+      this.yogaEvents = events.filter(this.getYoga);
+      $('#workoutCal').fullCalendar('removeEvents');
+      $('#workoutCal').fullCalendar('addEventSource', this.yogaEvents);
+    }
+
+    this.eventsHIIT = function() {
+      this.HIITEvents = events.filter(this.getHIIT);
+      $('#workoutCal').fullCalendar('removeEvents');
+      $('#workoutCal').fullCalendar('addEventSource', this.HIITEvents);
+    }
+
+    this.eventsStrength = function() {
+      this.strengthEvents = events.filter(this.getStrength);
+      $('#workoutCal').fullCalendar('removeEvents');
+      $('#workoutCal').fullCalendar('addEventSource', this.strengthEvents);
+    }
+
+    this.eventsOther = function() {
+      this.otherEvents = events.filter(this.getOther);
+      $('#workoutCal').fullCalendar('removeEvents');
+      $('#workoutCal').fullCalendar('addEventSource', this.otherEvents);
+    }
+
+    this.getAll = function() {
+      $('#workoutCal').fullCalendar('removeEvents');
+      $('#workoutCal').fullCalendar('addEventSource', this.events);
+    }
 }]);
 
 ///////////// ADD WORKOUT MODAL CONTROLLER ///////////////
 app.controller('AddModalInstanceCtrl', ['$uibModalInstance', '$http', 'thisDate', function($uibModalInstance, $http, thisDate) {
   this.url = 'https://workitcal-api.herokuapp.com';
+  // this.url = 'http://localhost:3000'
   this.workoutOptions = ['Cardio', 'HIIT', 'Strength Training', 'Yoga', 'Other'];
   this.equipment = ['Cardio machine (treadmill, elliptical, bike, etc.)', 'Weights (dumbbells, medicine ball, etc.)', 'Resistance bands/TRX straps', 'Bodyweight'];
   this.addEventData = {};
@@ -155,12 +222,9 @@ app.controller('AddModalInstanceCtrl', ['$uibModalInstance', '$http', 'thisDate'
       data: this.addEventData
     }).then(function(response) {
       console.log(response.data);
-      // this.events.push({
-      //   title: this.addEventData.title,
-      //   start: this.addEventData.start,
-      //   backgroundColor: this.addEventData.backgroundColor
-      // });
+      events.push(response.data);
       this.addEventData = {};
+      eventSources = [events];
       // $('#workoutCal').fullCalendar('refetchEvents');
       }.bind(this));
     };
@@ -168,7 +232,7 @@ app.controller('AddModalInstanceCtrl', ['$uibModalInstance', '$http', 'thisDate'
   this.ok = function() {
     $uibModalInstance.close();
     // console.log(window.location);
-    window.location.reload();
+    // window.location.reload();
   }
 
   console.log(this);
@@ -177,12 +241,18 @@ app.controller('AddModalInstanceCtrl', ['$uibModalInstance', '$http', 'thisDate'
 ///////////////// UPDATE/DELETE WORKOUT MODAL CONTROLLER //////////////////
 app.controller('ModalInstanceCtrl', ['$uibModalInstance', '$http', 'selectedWorkout', function($uibModalInstance, $http, selectedWorkout) {
   this.url = 'https://workitcal-api.herokuapp.com';
+  // this.url = 'http://localhost:3000'
   this.workoutOptions = ['Cardio', 'HIIT', 'Strength Training', 'Yoga', 'Other'];
   this.equipment = ['Cardio machine (treadmill, elliptical, bike, etc.)', 'Weights (dumbbells, medicine ball, etc.)', 'Resistance bands/TRX straps', 'Bodyweight'];
   this.workout = selectedWorkout;
   this.updateWorkout = {};
 
   this.update = function() {
+    for (var i = 0; i < events.length; i++) {
+      if (selectedWorkout._id === events[i]._id) {
+        events.splice(i, 1);
+      }
+    };
     switch (this.updateWorkout.title) {
       case 'Cardio':
       this.updateWorkout.backgroundColor = '#4D528C';
@@ -200,29 +270,37 @@ app.controller('ModalInstanceCtrl', ['$uibModalInstance', '$http', 'selectedWork
       this.updateWorkout.backgroundColor = '#ADB02B';
       break;
   };
+
     $http({
       method: 'PUT',
       url: this.url + '/users/' + localStorage.userId + '/workouts/' + selectedWorkout.id,
       data: this.updateWorkout
     }).then(function(response) {
-      console.log(response.data);
-    })
+      console.log(response.data[0]);
+      events.push(response.data[0]);
+    });
   }
 
   this.delete = function() {
+    for (var i = 0; i < events.length; i++) {
+      if (selectedWorkout._id === events[i]._id) {
+        events.splice(i, 1);
+        eventSources = [events];
+      }
+    }
     $http({
       method: 'DELETE',
       url: this.url + '/users/' + localStorage.userId + '/workouts/' + selectedWorkout.id
     }).then(function(response) {
       console.log(response);
-    })
-  }
+    });
+  };
 
   this.ok = function() {
     // console.log(selectedWorkout);
     // console.log(this.workout);
     $uibModalInstance.close();
-    window.location.reload();
+    // window.location.reload();
   };
 
 }]);
@@ -231,7 +309,8 @@ app.controller('ModalInstanceCtrl', ['$uibModalInstance', '$http', 'selectedWork
 
 ////////////////// MAIN CONTROLLER ///////////////////
 app.controller('mainController', ['$http', '$uibModal', '$location', function($http, $uibModal, $location) {
-  this.url = 'https://workitcal-api.herokuapp.com'
+  this.url = 'https://workitcal-api.herokuapp.com';
+  // this.url = 'http://localhost:3000';
   this.signUpData = {};
   this.logInData = {};
   this.user = {};
